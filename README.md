@@ -1,4 +1,4 @@
-# vue-test
+# Vue3-swiper
 
 ## Project setup
 ```
