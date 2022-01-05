@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="header-wrapper">
-      <div :class="[groupName === 'groupOne' ?  'content selected-content' : 'content']" @click="clickTag('groupOne')">现状图</div>
-      <div :class="[groupName === 'groupTwo' ?  'content selected-content' : 'content']" @click="clickTag('groupTwo')">预测图</div>
-      <div :class="[groupName === 'groupThree' ?  'content selected-content' : 'content']" @click="clickTag('groupThree')">宏观图</div>
+      <div :class="[groupName === 'groupOne' ?  'content selected-content' : 'content']" @click="clickTag('groupOne')">现状一张图</div>
+      <div style="display:none" :class="[groupName === 'groupTwo' ?  'content selected-content' : 'content']" @click="clickTag('groupTwo')">预测一张图</div>
+      <div :class="[groupName === 'groupThree' ?  'content selected-content' : 'content']" @click="clickTag('groupThree')">全省宏观图</div>
     </div>
     <div class="content-wrapper">
       <div class="item-wrapper">
@@ -52,41 +52,41 @@ export default {
     const groupItems = reactive({
       groupOne: [
         {
-          title: '汽车',
+          title: '煤炭',
           path: 'https://greatbiscuit.gitee.io/logistics/images/1-1.png'
         },
         {
-          title: '煤炭',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
-        },
-        {
-          title: '钢材',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
+          title: '粮食',
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-2.png'
         },
         {
           title: '工程机械',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E4%BA%86%E8%A7%A3%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89%E6%96%B0.jpg'
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-3.png'
         },
         {
-          title: '金属矿石与有色金属',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
+          title: '汽车',
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-4.png'
         },
         {
-          title: '木材',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
+          title: '钢材',
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-5.png'
         },
         {
-          title: '材料',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E4%BA%86%E8%A7%A3%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89%E6%96%B0.jpg'
+          title: '有色金属',
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-6.png'
+        },
+        {
+          title: '金属矿石',
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-7.png'
         },
         {
           title: '集装箱',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-8.png'
         },
         {
           title: '矿建材料',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
-        },
+          path: 'https://greatbiscuit.gitee.io/logistics/images/1-9.png'
+        }
       ],
       groupTwo: [
         {
@@ -129,7 +129,7 @@ export default {
        groupThree: [
         {
           title: '宏观图',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E6%88%91%E8%A6%81%E6%8A%95%E7%A8%BF%E5%86%85%E5%AE%B9.jpg'
+          path: 'https://greatbiscuit.gitee.io/logistics/images/3-1.png'
         }
        ]
     })
