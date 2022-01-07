@@ -1,38 +1,61 @@
 <template>
-  <div id="app">
-    <div class="header-wrapper">
-      <div :class="[groupName === 'groupOne' ?  'content selected-content' : 'content']" @click="clickTag('groupOne')">现状一张图</div>
-      <div style="display:none" :class="[groupName === 'groupTwo' ?  'content selected-content' : 'content']" @click="clickTag('groupTwo')">预测一张图</div>
-      <div :class="[groupName === 'groupThree' ?  'content selected-content' : 'content']" @click="clickTag('groupThree')">全省宏观图</div>
-    </div>
-    <div class="content-wrapper">
-      <div class="item-wrapper">
-        <div :class="[activeItemIndex === index ? 'item selected-item' : 'item']" v-for="(item, index) of groupItems[groupName]" :key="index" @click="clickItem(index)">{{item.title}}</div>
+  <div class="app">
+    <div class="menu-wrapper" v-show="isShowMenu">
+      <div class="menu-header">
+        <div class="menu-title">目录</div>
+        <div class="menu-button" @click="handleCloseMenu">×</div>
       </div>
-      <swiper
-        class="swiper"
-        :modules="modules"
-        :slides-per-view="1"
-        navigation
-        activeIndex="2"
-        @swiper="onSwiper"
-        @slideChange="onSlideChange"
-        ref="mySwiper"
-      >
-        <swiper-slide v-for="(item, index) of groupItems[groupName]" :key="index">
-          <div class="image-wrapper">
-            <viewer class="image-viewer" :images="item.path">
-              <img class="image" :src="item.path">
-            </viewer>
-          </div>
-        </swiper-slide>
-      </swiper>
+      <el-scrollbar :height="menuHeight">
+        <el-row class="menu-content">
+          <el-col :span="12">
+            <el-menu
+              ref="menuRef"
+              :default-active="activePath"
+              class="menu-content"
+              :unique-opened="true"
+              @open="handleOpen"
+              @select="handleSelect"
+            >
+              <el-sub-menu v-for="subMenuItem of subMenuItems" :key="subMenuItem.index" :index="subMenuItem.index">
+                <template #title>
+                  <span>{{subMenuItem.title}}</span>
+                </template>
+                <el-menu-item v-for="item of subMenuItem.item" :key="item.index" :index="item.index">{{item.title}}</el-menu-item>
+              </el-sub-menu>
+            </el-menu>
+          </el-col>
+        </el-row>
+      </el-scrollbar>
+    </div>
+    <div class="open-menu" v-show="!isShowMenu" @click="handleCloseMenu">+</div>
+    <div class="content-wrapper" ref="contentRef">
+      <div class="content-title">{{imageTitle}}</div>
+      <div class="swiper-wrapper">
+        <swiper
+          class="swiper"
+          :modules="modules"
+          :slides-per-view="1"
+          navigation
+          activeIndex="2"
+          @swiper="onSwiper"
+          @slideChange="onSlideChange"
+          ref="mySwiper"
+        >
+          <swiper-slide v-for="item of subMenuItems[activeSubMenuIndex-1].item" :key="item.index">
+            <div class="image-wrapper">
+              <viewer class="image-viewer" :images="[item.path]">
+                <img  class="image" :src="item.path">
+              </viewer>
+            </div>
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
@@ -49,185 +72,301 @@ export default {
     SwiperSlide,
   },
   setup() {
-    const groupItems = reactive({
-      groupOne: [
-        {
-          title: '煤炭',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-1.png'
-        },
-        {
-          title: '粮食',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-2.png'
-        },
-        {
-          title: '工程机械',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-3.png'
-        },
-        {
-          title: '汽车',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-4.png'
-        },
-        {
-          title: '钢材',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-5.png'
-        },
-        {
-          title: '有色金属',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-6.png'
-        },
-        {
-          title: '金属矿石',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-7.png'
-        },
-        {
-          title: '集装箱',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-8.png'
-        },
-        {
-          title: '矿建材料',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/1-9.png'
-        }
-      ],
-      groupTwo: [
-        {
-          title: '汽车',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E4%BA%86%E8%A7%A3%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89%E6%96%B0.jpg'
-        },
-        {
-          title: '煤炭',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
-        },
-        {
-          title: '钢材',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
-        },
-        {
-          title: '工程机械',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E4%BA%86%E8%A7%A3%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89%E6%96%B0.jpg'
-        },
-        {
-          title: '金属矿石与有色金属',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
-        },
-        {
-          title: '木材',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
-        },
-        {
-          title: '材料',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E4%BA%86%E8%A7%A3%E6%88%91%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89%E6%96%B0.jpg'
-        },
-        {
-          title: '集装箱',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/home/%E5%95%86%E5%8A%A1%E5%90%88%E4%BD%9C.jpg'
-        },
-        {
-          title: '矿建材料',
-          path: 'https://lkdxka.oss-cn-shenzhen.aliyuncs.com/zip/%E5%B0%8F%E5%8F%AF%E7%88%B1%E8%A1%A8%E6%83%85%E5%8C%85%EF%BC%88%E5%8E%8B%E7%BC%A9%E5%90%8E%EF%BC%89.jpg'
-        },
-      ],
-       groupThree: [
-        {
-          title: '宏观图',
-          path: 'https://greatbiscuit.gitee.io/logistics/images/3-1.png'
-        }
-       ]
-    })
-    const groupName = ref("groupOne");
+    const subMenuItems = reactive([
+      {
+        title: '湖南省产业现状与分布情况',
+        index: '1',
+        item: [
+          {
+            title: '湖南省农业产业分布图',
+            index: '1-1',
+            path: '../images/1-1.png'
+          },
+          {
+            title: '湖南省工业产业分布图',
+            index: '1-2',
+            path: '../images/1-2.png'
+          }
+        ]
+      },
+      {
+        title: '湖南省大宗货物品类、流量与流向现状',
+        index: '2',
+        item: [
+          {
+            title: '湖南省主要汽车产业分布图',
+            index: '2-1',
+            path: '../images/2-1.png'
+          },
+          {
+            title: '湖南省汽车流量流向图',
+            index: '2-2',
+            path: '../images/2-2.png'
+          },
+          {
+            title: '湖南省主要用煤企业分布图',
+            index: '2-3',
+            path: '../images/2-3.png'
+          },
+          {
+            title: '煤炭流量流向图',
+            index: '2-4',
+            path: '../images/2-4.png'
+          },
+          {
+            title: '湖南省主要钢材企业分布图',
+            index: '2-5',
+            path: '../images/2-5.png'
+          },
+          {
+            title: '钢材流量流向图',
+            index: '2-6',
+            path: '../images/2-6.png'
+          },
+          {
+            title: '湖南省工程机械主要企业分布图',
+            index: '2-7',
+            path: '../images/2-7.png'
+          },
+          {
+            title: '湖南省工程机械流量流向图',
+            index: '2-8',
+            path: '../images/2-8.png'
+          },
+          {
+            title: '湖南省主要粮食企业分布图',
+            index: '2-9',
+            path: '../images/2-9.png'
+          },
+          {
+            title: '湖南省粮食流量流向图',
+            index: '2-10',
+            path: '../images/2-10.png'
+          },
+          {
+            title: '湖南省金属矿石主要企业分布图',
+            index: '2-11',
+            path: '../images/2-11.png'
+          },
+          {
+            title: '湖南省金属矿石进出省流量流向',
+            index: '2-12',
+            path: '../images/2-12.png'
+          },
+          {
+            title: '湖南省主要有色金属企业分布图',
+            index: '2-13',
+            path: '../images/2-13.png'
+          },
+          {
+            title: '湖南省有色金属流量流向图',
+            index: '2-14',
+            path: '../images/2-14.png'
+          },
+          {
+            title: '湖南省主要矿建材料企业分布图',
+            index: '2-15',
+            path: '../images/2-15.png'
+          },
+          {
+            title: '湖南省矿建材料流量流向图',
+            index: '2-16',
+            path: '../images/2-16.png'
+          }
+        ]
+      },
+      {
+        title: '各种运输方式货物品类、流量与流向现状',
+        index: '3',
+        item: [
+          {
+            title: '中欧班列流品流量',
+            index: '3-1',
+            path: '../images/3-1.png'
+          },
+          {
+            title: '货运航空流品流量图',
+            index: '3-2',
+            path: '../images/3-2.png'
+          },
+          {
+            title: '水运流品流量图',
+            index: '3-3',
+            path: '../images/3-3.png'
+          },
+          {
+            title: '湖南省集装箱流量流向图',
+            index: '3-4',
+            path: '../images/3-4.png'
+          },
+          {
+            title: '2020年湖南省铁路流品、流量、流向图',
+            index: '3-5',
+            path: '../images/3-5.png'
+          },
+          {
+            title: '2020年湖南省水运货品流向图',
+            index: '3-6',
+            path: '../images/3-6.png'
+          },
+          {
+            title: '湖南省宏观流量流向图',
+            index: '3-7',
+            path: '../images/3-7.png'
+          }
+        ]
+      }
+    ])
+    const isShowMenu = ref(true);
+    const contentRef = ref(null);
+    const menuRef = ref(null);
     const mySwiper = ref(null);
+    const activeSubMenuIndex = ref(1);  // 索引从 1 开始
+    const activePath = ref('1-1')   // 索引从 1-1开始
+    const imageTitle = ref(subMenuItems[0].item[0].title);
+
+    const menuHeight = ref(document.documentElement.clientHeight - 43);
+
+    const handleCloseMenu = () => {
+      if (isShowMenu.value) {
+        isShowMenu.value = false;
+        contentRef.value.style.width = '100%';
+      } else {
+        isShowMenu.value = true;
+        contentRef.value.style.width = `${screen.width - 400}px`;
+      }
+    }
+    
     const onSwiper = () => {
       console.log("swiper");
     };
     const onSlideChange = (swiper) => {
-      activeItemIndex.value = swiper.activeIndex
+      activePath.value = `${activeSubMenuIndex.value}-${swiper.activeIndex+1}`
     };
-    const clickTag = (name) => {
-      groupName.value = name;
-      mySwiper.value.$el.swiper.slideTo(0)
-      activeItemIndex.value = 0
+    
+    const handleOpen = (index) => {
+      activeSubMenuIndex.value = index;
+      // setTimeout(() => {
+      //   activePath.value = `${activeSubMenuIndex.value}-1`
+      // }, 1000)
+      activePath.value = `${activeSubMenuIndex.value}-1`
+      // mySwiper.value.$el.swiper.slideTo(activePath.value)
     }
-    const activeItemIndex = ref(0)
-    const clickItem = (index) => {
-      mySwiper.value.$el.swiper.slideTo(index)
-      activeItemIndex.value = index
+    const handleSelect = (index) => {
+      activePath.value = index;
+      mySwiper.value.$el.swiper.slideTo(parseInt(index.split("-")[1]) - 1)
+      console.log(activePath.value);
     }
+
+    watch(activePath, () => {
+      const index = activeSubMenuIndex.value;
+      const item = subMenuItems[index - 1]['item'];
+      const len = item.length;
+      for (let i = 0; i < len; i++) {
+        if (item[i]['index'] === activePath.value) {
+          imageTitle.value = item[i].title;
+          break;
+        } 
+      }
+    })
+
     return {
-      groupItems,
-      groupName,
+      subMenuItems,
+      isShowMenu,
+      handleCloseMenu,
+      contentRef,
+      menuHeight,
+      menuRef,
       mySwiper,
-      clickTag,
-      clickItem,
-      activeItemIndex,
+      imageTitle,
+      activePath,
+      activeSubMenuIndex,
       onSwiper,
       onSlideChange,
+      handleOpen,
+      handleSelect,
       modules: [Navigation, Pagination, Scrollbar, A11y],
     };
-  },
+  }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .header-wrapper
+  .app
+    display: flex
     position: fixed
     top: 0
     left: 0
     right: 0
-    height: 40px
-    line-height: 40px
-    display: flex
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
-    .content
-      flex: 1
-      color: #409eff
-      font-size: 18px
-      text-align: center
-      cursor pointer
-      border-right: 1px solid rgba(0, 0, 0, 0.1)
-    .selected-content
-      border-bottom: 2px solid #1989fa
-      color: #1989fa
-  .content-wrapper
-    position: fixed
-    top: 60px
-    left: 0
-    right: 0
     bottom: 0
-    .item-wrapper
-      height: 30px
-      margin-bottom: 20px
-      display: flex
-      flex-direction: row
-      justify-content: space-around
-      align-items: center
-      .item
-        height: 40px
-        padding: 0 20px
-        line-height: 40px
-        text-align: center
-        border: 1px solid rgba(0, 0, 0, 0.3)
-        border-radius: 10px
-        cursor: pointer
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      .item:hover
-        border: 1px solid #409eff
-      .selected-item
-        color: #409eff
-        border: 1px solid #409eff
-    .swiper
-      width: 90%
-      height: calc(100% - 70px)
-      .image-wrapper
-        width: 80%
-        height: 100%
-        text-align: center
-        margin:0 auto
-        .image-viewer
-          height: 100%
+    min-width: 1000px
+    .menu-wrapper
+      width: 400px
+      border-right: 2px solid #e6e6e6
+      user-select: none
+      .menu-header
+        display: flex
+        padding: 15px 15px 0 15px
+        justify-content: space-between
+        font-weight: 500
+        .menu-title
+          font-size: 20px
+        .menu-button
+          padding: 6px 8px
+          box-shadow: 1px
+          border-radius: 7px
+          background-color: rgba(64, 158, 255, 0.3)
+          color: #fff
           cursor pointer
-          .image
+          transition: background 0.3s ease-in-out;
+        .menu-button:hover
+          background-color: rgba(64, 158, 255, 1)
+      .menu-content
+        width: 390px
+        ul
+          border: none
+    .open-menu
+      position: fixed
+      top: 0
+      left: 0
+      width: 70px
+      height: 70px
+      line-height: 60px
+      background-color: rgba(64, 158, 255, 0.3)
+      color: #fff
+      font-size: 30px
+      border-radius: 0 0 100% 0;
+      cursor pointer
+      text-align: center
+      transition: background 0.3s ease-in-out;
+    .open-menu:hover
+      background-color: rgba(64, 158, 255, 1)
+    .content-wrapper
+      flex: 1
+      width: calc(100% - 400px)
+      height: 100%
+      .content-title
+        width: 100%
+        height: 80px
+        line-height: 80px
+        text-align: center
+        font-size: 25px
+        border-bottom: 2px solid #e6e6e6
+        user-select: none
+      .swiper-wrapper
+        width: 100%
+        height: calc(100% - 100px)
+        .swiper
+          width: 100%
+          margin: 10px
+          .image-wrapper
+            width: 100%
             height: 100%
+            text-align: center
+            margin:0 auto
+            .image-viewer
+              height: 100%
+              .image
+                cursor pointer
+                height: 100%
 </style>
-
-
