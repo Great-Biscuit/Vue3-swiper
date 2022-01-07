@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class="menu-wrapper" v-show="isShowMenu">
+    <div ref="menuRef" class="menu-wrapper" v-show="isShowMenu">
       <div class="menu-header">
         <div class="menu-title">目录</div>
         <div class="menu-button" @click="handleCloseMenu">×</div>
@@ -9,7 +9,6 @@
         <el-row class="menu-content">
           <el-col :span="12">
             <el-menu
-              ref="menuRef"
               :default-active="activePath"
               class="menu-content"
               :unique-opened="true"
@@ -28,7 +27,7 @@
       </el-scrollbar>
     </div>
     <div class="open-menu" v-show="!isShowMenu" @click="handleCloseMenu">+</div>
-    <div class="content-wrapper" ref="contentRef">
+    <div class="content-wrapper" v-show="(isMobile && isShowMenu) ? false : true" ref="contentRef">
       <div class="content-title">{{imageTitle}}</div>
       <div class="swiper-wrapper">
         <swiper
@@ -55,7 +54,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue.js';
@@ -74,149 +73,150 @@ export default {
   setup() {
     const subMenuItems = reactive([
       {
-        title: '湖南省产业现状与分布情况',
+        title: '一、湖南省产业现状与分布情况',
         index: '1',
         item: [
           {
-            title: '湖南省农业产业分布图',
+            title: '1.1 湖南省农业产业分布图',
             index: '1-1',
             path: '../images/1-1.png'
           },
           {
-            title: '湖南省工业产业分布图',
+            title: '1.2 湖南省工业产业分布图',
             index: '1-2',
             path: '../images/1-2.png'
           }
         ]
       },
       {
-        title: '湖南省大宗货物品类、流量与流向现状',
+        title: '二、湖南省大宗货物品类、流量与流向现状',
         index: '2',
         item: [
           {
-            title: '湖南省主要汽车产业分布图',
+            title: '2.1 湖南省主要汽车产业分布图',
             index: '2-1',
             path: '../images/2-1.png'
           },
           {
-            title: '湖南省汽车流量流向图',
+            title: '2.2 湖南省汽车流量流向图',
             index: '2-2',
             path: '../images/2-2.png'
           },
           {
-            title: '湖南省主要用煤企业分布图',
+            title: '2.3 湖南省主要用煤企业分布图',
             index: '2-3',
             path: '../images/2-3.png'
           },
           {
-            title: '煤炭流量流向图',
+            title: '2.4 煤炭流量流向图',
             index: '2-4',
             path: '../images/2-4.png'
           },
           {
-            title: '湖南省主要钢材企业分布图',
+            title: '2.5 湖南省主要钢材企业分布图',
             index: '2-5',
             path: '../images/2-5.png'
           },
           {
-            title: '钢材流量流向图',
+            title: '2.6 钢材流量流向图',
             index: '2-6',
             path: '../images/2-6.png'
           },
           {
-            title: '湖南省工程机械主要企业分布图',
+            title: '2.7 湖南省工程机械主要企业分布图',
             index: '2-7',
             path: '../images/2-7.png'
           },
           {
-            title: '湖南省工程机械流量流向图',
+            title: '2.8 湖南省工程机械流量流向图',
             index: '2-8',
             path: '../images/2-8.png'
           },
           {
-            title: '湖南省主要粮食企业分布图',
+            title: '2.9 湖南省主要粮食企业分布图',
             index: '2-9',
             path: '../images/2-9.png'
           },
           {
-            title: '湖南省粮食流量流向图',
+            title: '2.10 湖南省粮食流量流向图',
             index: '2-10',
             path: '../images/2-10.png'
           },
           {
-            title: '湖南省金属矿石主要企业分布图',
+            title: '2.11 湖南省金属矿石主要企业分布图',
             index: '2-11',
             path: '../images/2-11.png'
           },
           {
-            title: '湖南省金属矿石进出省流量流向',
+            title: '2.12 湖南省金属矿石进出省流量流向',
             index: '2-12',
             path: '../images/2-12.png'
           },
           {
-            title: '湖南省主要有色金属企业分布图',
+            title: '2.13 湖南省主要有色金属企业分布图',
             index: '2-13',
             path: '../images/2-13.png'
           },
           {
-            title: '湖南省有色金属流量流向图',
+            title: '2.14 湖南省有色金属流量流向图',
             index: '2-14',
             path: '../images/2-14.png'
           },
           {
-            title: '湖南省主要矿建材料企业分布图',
+            title: '2.15 湖南省主要矿建材料企业分布图',
             index: '2-15',
             path: '../images/2-15.png'
           },
           {
-            title: '湖南省矿建材料流量流向图',
+            title: '2.16 湖南省矿建材料流量流向图',
             index: '2-16',
             path: '../images/2-16.png'
           }
         ]
       },
       {
-        title: '各种运输方式货物品类、流量与流向现状',
+        title: '三、各种运输方式货物品类、流量与流向现状',
         index: '3',
         item: [
           {
-            title: '中欧班列流品流量',
+            title: '3.1 中欧班列流品流量',
             index: '3-1',
             path: '../images/3-1.png'
           },
           {
-            title: '货运航空流品流量图',
+            title: '3.2 货运航空流品流量图',
             index: '3-2',
             path: '../images/3-2.png'
           },
           {
-            title: '水运流品流量图',
+            title: '3.3 水运流品流量图',
             index: '3-3',
             path: '../images/3-3.png'
           },
           {
-            title: '湖南省集装箱流量流向图',
+            title: '3.4 湖南省集装箱流量流向图',
             index: '3-4',
             path: '../images/3-4.png'
           },
           {
-            title: '2020年湖南省铁路流品、流量、流向图',
+            title: '3.5 2020年湖南省铁路流品、流量、流向图',
             index: '3-5',
             path: '../images/3-5.png'
           },
           {
-            title: '2020年湖南省水运货品流向图',
+            title: '3.6 2020年湖南省水运货品流向图',
             index: '3-6',
             path: '../images/3-6.png'
           },
           {
-            title: '湖南省宏观流量流向图',
+            title: '3.7 湖南省宏观流量流向图',
             index: '3-7',
             path: '../images/3-7.png'
           }
         ]
       }
     ])
+    const isMobile = ref(false);
     const isShowMenu = ref(true);
     const contentRef = ref(null);
     const menuRef = ref(null);
@@ -233,8 +233,19 @@ export default {
         contentRef.value.style.width = '100%';
       } else {
         isShowMenu.value = true;
-        contentRef.value.style.width = `${screen.width - 400}px`;
+        if (isMobile.value) {
+          const width = `${document.documentElement.clientWidth}px`;
+          _changeMenuWidth(width);
+        } else {
+          contentRef.value.style.width = `${screen.width - 400}px`;
+        }
       }
+    }
+
+    const _changeMenuWidth = (width) => {
+      menuRef.value.style.setProperty('width', width);
+      menuRef.value.getElementsByClassName('menu-content')[0].style.setProperty('width', width);
+      menuRef.value.getElementsByClassName('menu-content')[1].style.setProperty('width', width);
     }
     
     const onSwiper = () => {
@@ -246,16 +257,14 @@ export default {
     
     const handleOpen = (index) => {
       activeSubMenuIndex.value = index;
-      // setTimeout(() => {
-      //   activePath.value = `${activeSubMenuIndex.value}-1`
-      // }, 1000)
       activePath.value = `${activeSubMenuIndex.value}-1`
-      // mySwiper.value.$el.swiper.slideTo(activePath.value)
     }
     const handleSelect = (index) => {
       activePath.value = index;
       mySwiper.value.$el.swiper.slideTo(parseInt(index.split("-")[1]) - 1)
-      console.log(activePath.value);
+      if (isMobile.value) {
+        isShowMenu.value = false;
+      }
     }
 
     watch(activePath, () => {
@@ -270,17 +279,48 @@ export default {
       }
     })
 
+    watch(activeSubMenuIndex, () => {
+      mySwiper.value.$el.swiper.slideTo(0)
+    })
+
+    watch(isMobile, () => {
+      if(isMobile.value) {
+        isShowMenu.value = false;
+      } else {
+        isShowMenu.value = true;
+      }
+    })
+
+    onMounted(() => {
+      if (document.body.clientWidth < 600) {
+        isMobile.value = true;
+      } else {
+        isMobile.value = false;
+      }
+      window.onresize= () => {
+        return (() => {
+          if (document.body.clientWidth < 600) {
+            isMobile.value = true;
+          } else {
+            isMobile.value = false;
+            _changeMenuWidth('400px');
+          }
+        })();
+      }
+    })
+
     return {
       subMenuItems,
+      isMobile,
       isShowMenu,
-      handleCloseMenu,
       contentRef,
-      menuHeight,
       menuRef,
       mySwiper,
-      imageTitle,
-      activePath,
       activeSubMenuIndex,
+      activePath,
+      imageTitle,
+      menuHeight,
+      handleCloseMenu,
       onSwiper,
       onSlideChange,
       handleOpen,
@@ -299,7 +339,6 @@ export default {
     left: 0
     right: 0
     bottom: 0
-    min-width: 1000px
     .menu-wrapper
       width: 400px
       border-right: 2px solid #e6e6e6
@@ -325,6 +364,16 @@ export default {
         width: 390px
         ul
           border: none
+          /deep/ .el-sub-menu__title, .el-menu-item 
+            font-size: 16px
+            span
+              padding-right: 10px
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+          @media (max-width: 600px)
+            /deep/ .el-sub-menu__title, .el-menu-item 
+              font-size: 19px
     .open-menu
       position: fixed
       top: 0
@@ -353,20 +402,39 @@ export default {
         font-size: 25px
         border-bottom: 2px solid #e6e6e6
         user-select: none
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       .swiper-wrapper
         width: 100%
         height: calc(100% - 100px)
         .swiper
           width: 100%
           margin: 10px
-          .image-wrapper
-            width: 100%
-            height: 100%
-            text-align: center
-            margin:0 auto
-            .image-viewer
+          @media (max-width: 600px)
+            .image-wrapper
+              position relative
+              width: 100%
               height: 100%
-              .image
-                cursor pointer
+              text-align: center
+              margin:0 auto
+              .image-viewer
+                width: 100%
+                position: absolute
+                top: 50%
+                transform: translateY(-50%)
+                .image
+                  width: 100%
+                  cursor pointer
+          @media (min-width: 600px)
+            .image-wrapper
+              width: 100%
+              height: 100%
+              text-align: center
+              margin:0 auto
+              .image-viewer
                 height: 100%
+                .image
+                  height: 100%
+                  cursor pointer
 </style>
