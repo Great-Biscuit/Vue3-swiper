@@ -17,9 +17,11 @@
             >
               <el-sub-menu v-for="subMenuItem of subMenuItems" :key="subMenuItem.index" :index="subMenuItem.index">
                 <template #title>
-                  <span>{{subMenuItem.title}}</span>
+                  <span :title="subMenuItem.title">{{subMenuItem.title}}</span>
                 </template>
-                <el-menu-item v-for="item of subMenuItem.item" :key="item.index" :index="item.index">{{item.title}}</el-menu-item>
+                <el-menu-item v-for="item of subMenuItem.item" :key="item.index" :index="item.index">
+                  <span :title="item.title">{{item.title}}</span>
+                </el-menu-item>
               </el-sub-menu>
             </el-menu>
           </el-col>
@@ -256,6 +258,9 @@ export default {
     };
     
     const handleOpen = (index) => {
+      if (activeSubMenuIndex.value === index) {
+        return;
+      }
       activeSubMenuIndex.value = index;
       activePath.value = `${activeSubMenuIndex.value}-1`
     }
@@ -388,6 +393,12 @@ export default {
       cursor pointer
       text-align: center
       transition: background 0.3s ease-in-out;
+    @media (max-width: 600px)
+      .open-menu
+        width: 50px
+        height: 50px
+        line-height: 50px
+        font-size: 20px
     .open-menu:hover
       background-color: rgba(64, 158, 255, 1)
     .content-wrapper
@@ -405,6 +416,11 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+      @media (max-width: 600px)
+        .content-title
+          height: 60px
+          line-height: 60px
+          font-size: 20px
       .swiper-wrapper
         width: 100%
         height: calc(100% - 100px)
