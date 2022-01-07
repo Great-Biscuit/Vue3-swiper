@@ -372,13 +372,12 @@ export default {
           /deep/ .el-sub-menu__title, .el-menu-item 
             font-size: 16px
             span
-              padding-right: 10px
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis;
           @media (max-width: 600px)
             /deep/ .el-sub-menu__title, .el-menu-item 
-              font-size: 19px
+              font-size: 18px
     .open-menu
       position: fixed
       top: 0
@@ -395,9 +394,9 @@ export default {
       transition: background 0.3s ease-in-out;
     @media (max-width: 600px)
       .open-menu
-        width: 50px
-        height: 50px
-        line-height: 50px
+        width: 40px
+        height: 40px
+        line-height: 40px
         font-size: 20px
     .open-menu:hover
       background-color: rgba(64, 158, 255, 1)
@@ -420,7 +419,7 @@ export default {
         .content-title
           height: 60px
           line-height: 60px
-          font-size: 20px
+          font-size: 19px
       .swiper-wrapper
         width: 100%
         height: calc(100% - 100px)
@@ -428,6 +427,10 @@ export default {
           width: 100%
           margin: 10px
           @media (max-width: 600px)
+            /deep/ .swiper-button-prev:after
+              font-size: 20px
+            /deep/ .swiper-button-next:after
+              font-size: 20px
             .image-wrapper
               position relative
               width: 100%
