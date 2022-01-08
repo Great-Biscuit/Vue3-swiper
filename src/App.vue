@@ -75,148 +75,177 @@ export default {
   setup() {
     const subMenuItems = reactive([
       {
-        title: '一、湖南省产业现状与分布情况',
+        title: '一、各市州物流基础设施与货运量情况分析',
         index: '1',
         item: [
           {
-            title: '1.1 湖南省农业产业分布图',
+            title: '1.1 各市州物流强度热力图',
             index: '1-1',
             path: 'https://greatbiscuit.gitee.io/logistics/images/1-1.png'
-          },
-          {
-            title: '1.2 湖南省工业产业分布图',
-            index: '1-2',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/1-2.png'
           }
         ]
       },
       {
-        title: '二、湖南省大宗货物品类、流量与流向现状',
+        title: '二、湖南省产业现状与分布情况',
         index: '2',
         item: [
           {
-            title: '2.1 湖南省主要汽车产业分布图',
+            title: '2.1 湖南省农业产业分布图',
             index: '2-1',
             path: 'https://greatbiscuit.gitee.io/logistics/images/2-1.png'
           },
           {
-            title: '2.2 湖南省汽车流量流向图',
+            title: '2.2 湖南省工业产业分布图',
             index: '2-2',
             path: 'https://greatbiscuit.gitee.io/logistics/images/2-2.png'
-          },
-          {
-            title: '2.3 湖南省主要用煤企业分布图',
-            index: '2-3',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-3.png'
-          },
-          {
-            title: '2.4 煤炭流量流向图',
-            index: '2-4',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-4.png'
-          },
-          {
-            title: '2.5 湖南省主要钢材企业分布图',
-            index: '2-5',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-5.png'
-          },
-          {
-            title: '2.6 钢材流量流向图',
-            index: '2-6',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-6.png'
-          },
-          {
-            title: '2.7 湖南省工程机械主要企业分布图',
-            index: '2-7',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-7.png'
-          },
-          {
-            title: '2.8 湖南省工程机械流量流向图',
-            index: '2-8',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-8.png'
-          },
-          {
-            title: '2.9 湖南省主要粮食企业分布图',
-            index: '2-9',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-9.png'
-          },
-          {
-            title: '2.10 湖南省粮食流量流向图',
-            index: '2-10',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-10.png'
-          },
-          {
-            title: '2.11 湖南省金属矿石主要企业分布图',
-            index: '2-11',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-11.png'
-          },
-          {
-            title: '2.12 湖南省金属矿石进出省流量流向',
-            index: '2-12',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-12.png'
-          },
-          {
-            title: '2.13 湖南省主要有色金属企业分布图',
-            index: '2-13',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-13.png'
-          },
-          {
-            title: '2.14 湖南省有色金属流量流向图',
-            index: '2-14',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-14.png'
-          },
-          {
-            title: '2.15 湖南省主要矿建材料企业分布图',
-            index: '2-15',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-15.png'
-          },
-          {
-            title: '2.16 湖南省矿建材料流量流向图',
-            index: '2-16',
-            path: 'https://greatbiscuit.gitee.io/logistics/images/2-16.png'
           }
         ]
       },
       {
-        title: '三、各种运输方式货物品类、流量与流向现状',
+        title: '三、湖南省大宗货物品类、流量与流向现状',
         index: '3',
         item: [
           {
-            title: '3.1 中欧班列流品流量',
+            title: '3.1 湖南省主要汽车产业分布图',
             index: '3-1',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-1.png'
           },
           {
-            title: '3.2 货运航空流品流量图',
+            title: '3.2 湖南省汽车流量流向图',
             index: '3-2',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-2.png'
           },
           {
-            title: '3.3 水运流品流量图',
+            title: '3.3 湖南省主要用煤企业分布图',
             index: '3-3',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-3.png'
           },
           {
-            title: '3.4 湖南省集装箱流量流向图',
+            title: '3.4 煤炭流量流向图',
             index: '3-4',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-4.png'
           },
           {
-            title: '3.5 2020年湖南省铁路流品、流量、流向图',
+            title: '3.5 湖南省主要钢材企业分布图',
             index: '3-5',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-5.png'
           },
           {
-            title: '3.6 2020年湖南省水运货品流向图',
+            title: '3.6 钢材流量流向图',
             index: '3-6',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-6.png'
           },
           {
-            title: '3.7 湖南省宏观流量流向图',
+            title: '3.7 湖南省工程机械主要企业分布图',
             index: '3-7',
             path: 'https://greatbiscuit.gitee.io/logistics/images/3-7.png'
+          },
+          {
+            title: '3.8 湖南省工程机械流量流向图',
+            index: '3-8',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-8.png'
+          },
+          {
+            title: '3.9 湖南省主要粮食企业分布图',
+            index: '3-9',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-9.png'
+          },
+          {
+            title: '3.10 湖南省粮食流量流向图',
+            index: '3-10',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-10.png'
+          },
+          {
+            title: '3.11 湖南省金属矿石主要企业分布图',
+            index: '3-11',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-11.png'
+          },
+          {
+            title: '3.12 湖南省金属矿石进出省流量流向',
+            index: '3-12',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-12.png'
+          },
+          {
+            title: '3.13 湖南省主要有色金属企业分布图',
+            index: '3-13',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-13.png'
+          },
+          {
+            title: '3.14 湖南省有色金属流量流向图',
+            index: '3-14',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-14.png'
+          },
+          {
+            title: '3.15 湖南省主要矿建材料企业分布图',
+            index: '3-15',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-15.png'
+          },
+          {
+            title: '3.16 湖南省矿建材料流量流向图',
+            index: '3-16',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/3-16.png'
           }
         ]
-      }
+      },
+      {
+        title: '四、各种运输方式货物品类、流量与流向现状',
+        index: '4',
+        item: [
+          {
+            title: '4.1 中欧班列流品流量',
+            index: '4-1',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-1.png'
+          },
+          {
+            title: '4.2 国际货运航空流品流量图',
+            index: '4-2',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-2.png'
+          },
+          {
+            title: '4.3 国际水运流品流量图',
+            index: '4-3',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-3.png'
+          },
+          {
+            title: '4.4 湖南省集装箱流量流向图',
+            index: '4-4',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-4.png'
+          },
+          {
+            title: '4.5 2020年湖南省铁路流品、流量、流向图',
+            index: '4-5',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-5.png'
+          },
+          {
+            title: '4.6 2020年湖南省水运货品流向图',
+            index: '4-6',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-6.png'
+          },
+          {
+            title: '4.7 湖南省宏观流量流向图',
+            index: '4-7',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/4-7.png'
+          }
+        ]
+      },
+      {
+        title: '五、全省物流货运发展预测分析',
+        index: '5',
+        item: [
+          {
+            title: '5.1 各市州物流强度热力预测图',
+            index: '5-1',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/5-1.png'
+          }
+        ]
+      }//,
+      // {
+      //   title: '六、全省大宗货物流量预测分析',
+      //   index: '6',
+      //   item: [
+          
+      //   ]
+      // }
     ])
     const isMobile = ref(false);
     const isShowMenu = ref(true);
