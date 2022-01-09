@@ -238,14 +238,58 @@ export default {
             path: 'https://greatbiscuit.gitee.io/logistics/images/5-1.png'
           }
         ]
-      }//,
-      // {
-      //   title: '六、全省大宗货物流量预测分析',
-      //   index: '6',
-      //   item: [
-          
-      //   ]
-      // }
+      },
+      {
+        title: '六、全省大宗货物流量预测分析',
+        index: '6',
+        item: [
+          {
+            title: '6.1 湖南省汽车流量流向预测图',
+            index: '6-1',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-1.png'
+          },
+          {
+            title: '6.2 湖南省煤炭流量流向预测图',
+            index: '6-2',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-2.png'
+          },
+          {
+            title: '6.3 湖南省钢材流量流向预测图',
+            index: '6-3',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-3.png'
+          },
+          {
+            title: '6.4 湖南省矿建材料流量流向预测图',
+            index: '6-4',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-4.png'
+          },
+          {
+            title: '6.5 湖南省工程机械流量流向预测图',
+            index: '6-5',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-5.png'
+          },
+          {
+            title: '6.6 湖南省金属矿石流量流向预测图',
+            index: '6-6',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-6.png'
+          },
+          {
+            title: '6.7 湖南省粮食流量流向预测图',
+            index: '6-7',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-7.png'
+          },
+          {
+            title: '6.8 湖南省有色金属流量流向预测图',
+            index: '6-8',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-8.png'
+          },
+          {
+            title: '6.9 湖南省集装箱流量流向预测图',
+            index: '6-9',
+            path: 'https://greatbiscuit.gitee.io/logistics/images/6-9.png'
+          }
+        ]
+      }
     ])
     const isMobile = ref(false);
     const isShowMenu = ref(true);
